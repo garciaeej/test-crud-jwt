@@ -72,7 +72,8 @@ const createUser = async (req,res) =>{
            500 Server Internal Error para errores ocasionados por el server
            401 Unauthorized para intentar la  
         */
-        return res.code(500).json({message:"user was not created"});
+        /// sorry i put code, i use fastify standard function for http xD
+        return res.status(500).json({message:"user was not created"});
     }
 }
 
