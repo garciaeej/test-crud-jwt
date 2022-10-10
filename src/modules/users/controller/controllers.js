@@ -1,5 +1,6 @@
 const Users = require("../../../db/models/users.model.js")
 const Bcrypt = require('../../../middleware/bcrypt.js');
+///// funciones sin usar 
 const { sign,verifyToken,auth } = require("../../../middleware/jwt.js")
 const dotenv = require("dotenv");
 const env = require("../../../config/config.services.js")
@@ -55,14 +56,23 @@ const createUser = async (req,res) =>{
 
     let {name,lastname,email,password,date} = req.body
     try {
+        // if(name === "" || lastname === "" || email === "" || password === "" || (date == null || date == ""))
+        //     return res.status(400).json({message:"Empty Fields"});
+
         password = await Bcrypt.encryptPassword(password)
         const user = new Users({name,lastname,email,password,date})
     
         await user.save()
-        return res.json(user);
+        // usuarios creados Http code 201 CREATED
+        return res.status(201).json(user);
         
     } catch (error) {
-        return res.json({message:"user was not created"});
+        /* HTTP Status no debe ser 200 cuando un usuario NO fue creado, en su lugar debe especificarse
+           Su correspondiente status code (400) Bad Request para datos en blanco,
+           500 Server Internal Error para errores ocasionados por el server
+           401 Unauthorized para intentar la  
+        */
+        return res.code(500).json({message:"user was not created"});
     }
 }
 
@@ -72,10 +82,13 @@ const updateUserbyId = async (req,res) =>{
     //const {name,lastname,password,email} = req.body
     const{id} = req.params
     try {
+        // No verificas el Body si este posee data o no en su body
         const newDataUser = await Users.findByIdAndUpdate(id,req.body)
+        /// Http
         return res.json(newDataUser)    
         
     } catch (error) {
+        //// Http
         return res.json("User no exists")    
     }
 
@@ -86,9 +99,11 @@ const deleteUserbyId = async (req,res) =>{
     const{id} = req.params
 
     try {
+        //// no verificas que el id exista y de un http 404 not found en caso que el documento no exista
         await Users.findByIdAndDelete(id)
         res.json("User deleted")
     } catch (error) {
+        /// http
         res.json("User no exists")        
     }
 

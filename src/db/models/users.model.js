@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
+/////// modulo sin usar
 const bcrypt = require("bcrypt");
+//////
 const mongoosePaginate =require("mongoose-paginate-v2")
 
 
@@ -20,6 +22,7 @@ const userSchema = new Schema({
         index: true,
         unique:true
     },
+    /// timestamps posee la propiedad createdAt para la creacion del documento y updatedAt para la actualizacion del mismo por lo que esta propiedad es redundante
     date:{ type: Date, default: Date.now,required:true }
 },{ timestamps:true})
 
