@@ -70,7 +70,7 @@ const createUser = async (req,res) =>{
         /* HTTP Status no debe ser 200 cuando un usuario NO fue creado, en su lugar debe especificarse
            Su correspondiente status code (400) Bad Request para datos en blanco,
            500 Server Internal Error para errores ocasionados por el server
-           401 Unauthorized para intentar la  
+           401 Unauthorized para intentos no autorizados en rutas protegidas Ej: usuario intentando modificar una ruta de permisos de admin
         */
         /// sorry i put code, i use fastify standard function for http xD
         return res.status(500).json({message:"user was not created"});
